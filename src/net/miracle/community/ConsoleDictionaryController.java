@@ -153,12 +153,16 @@ public class ConsoleDictionaryController {
 
     // распечатать одно слово
     public void print(String word) {
-        System.out.printf("слово: [%s] = англ. - %s | франц. - %s | нем. - %s",word, dictionary.get(word).get("en"), dictionary.get(word).get("fr"), dictionary.get(word).get("de"));
+        if (dictionary.containsKey(word)) {
+            System.out.printf("слово: [%s] = англ. - %s | франц. - %s | нем. - %s", word, dictionary.get(word).get("en"), dictionary.get(word).get("fr"), dictionary.get(word).get("de"));
+        } else {
+            System.out.printf("слово %s не найдено", word);
+        }
     }
     // распечатать весь словарь
     public void printAll() {
         for (Map.Entry<String, Map<String, String>> item : dictionary.entrySet()) {
-            System.out.println("\nслово: [" + item.getKey() + "]\nперевод:");
+            System.out.println("\nслово: " + item.getKey() + "\nперевод:");
             if (!item.getValue().entrySet().isEmpty()) {
                 for (Map.Entry<String, String> i : item.getValue().entrySet()) {
                     System.out.printf("\t%s - %s\n", i.getKey(), i.getValue());
