@@ -17,8 +17,13 @@ public class Main {
 
         controller.printAll();
         controller.print("машина");
+        controller.print("дом");
+        controller.print("дом");
+        controller.print("стол");
+        controller.print("стол");
 
-
+        controller.printTopOne();
+        controller.printTopLast();
 
     }
 }
