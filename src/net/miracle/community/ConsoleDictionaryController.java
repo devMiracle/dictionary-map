@@ -181,7 +181,11 @@ public class ConsoleDictionaryController {
         Map.Entry<String, ValueDictionaryModel> word = dictionary.entrySet().stream().max((o1, o2) -> o1.getValue().getPopularityIndex().compareTo(o2.getValue().getPopularityIndex())).get();
         if (dictionary.keySet().contains(word.getKey())) {
             System.out.print("top1 ");
-            System.out.printf("слово: [%s] = англ. - %s | франц. - %s | нем. - %s\n", word.getKey(), (word.getValue().getMap().containsKey("en") ? word.getValue().getMap().get("en") : "нет перевода"), (word.getValue().getMap().containsKey("fr") ? word.getValue().getMap().get("fr") : "нет перевода"), (word.getValue().getMap().containsKey("de") ? word.getValue().getMap().get("de") : "нет перевода"));
+            System.out.printf("слово: [%s] = англ. - %s | франц. - %s | нем. - %s\n",
+                    word.getKey(),
+                    (word.getValue().getMap().containsKey("en") ? word.getValue().getMap().get("en") : "нет перевода"),
+                    (word.getValue().getMap().containsKey("fr") ? word.getValue().getMap().get("fr") : "нет перевода"),
+                    (word.getValue().getMap().containsKey("de") ? word.getValue().getMap().get("de") : "нет перевода"));
         } else {
             System.out.println("error");
         }
@@ -193,7 +197,11 @@ public class ConsoleDictionaryController {
         Map.Entry<String, ValueDictionaryModel> word = dictionary.entrySet().stream().min((o1, o2) -> o1.getValue().getPopularityIndex().compareTo(o2.getValue().getPopularityIndex())).get();
         if (dictionary.keySet().contains(word.getKey())) {
             System.out.print("top last ");
-            System.out.printf("слово: [%s] = англ. - %s | франц. - %s | нем. - %s\n", word.getKey(), (word.getValue().getMap().containsKey("en") ? word.getValue().getMap().get("en") : "нет перевода"), (word.getValue().getMap().containsKey("fr") ? word.getValue().getMap().get("fr") : "нет перевода"), (word.getValue().getMap().containsKey("de") ? word.getValue().getMap().get("de") : "нет перевода"));
+            System.out.printf("слово: [%s] = англ. - %s | франц. - %s | нем. - %s\n",
+                    word.getKey(),
+                    (word.getValue().getMap().containsKey("en") ? word.getValue().getMap().get("en") : "нет перевода"),
+                    (word.getValue().getMap().containsKey("fr") ? word.getValue().getMap().get("fr") : "нет перевода"),
+                    (word.getValue().getMap().containsKey("de") ? word.getValue().getMap().get("de") : "нет перевода"));
         } else {
             System.out.println("error");
         }
