@@ -3,12 +3,12 @@ package net.miracle.community.model;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ValueDictionary {
+public class ValueDictionaryModel {
 
     private Map<String, String> map;
     private Integer popularityIndex;
 
-    public ValueDictionary() {
+    public ValueDictionaryModel() {
         setMap(new HashMap<>());
         setPopularityIndex(0);
     }

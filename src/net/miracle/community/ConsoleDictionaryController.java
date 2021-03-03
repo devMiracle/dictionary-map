@@ -1,14 +1,13 @@
 package net.miracle.community;
 
-import net.miracle.community.model.ValueDictionary;
+import net.miracle.community.model.ValueDictionaryModel;
 
 import java.util.*;
-import java.util.stream.Stream;
 
 public class ConsoleDictionaryController {
 
     private final Scanner scanner;
-    private final Map<String, ValueDictionary> dictionary;
+    private final Map<String, ValueDictionaryModel> dictionary;
 
     public ConsoleDictionaryController() {
         this.scanner = new Scanner(System.in);
@@ -27,7 +26,7 @@ public class ConsoleDictionaryController {
         translation.put("en", "car");
         translation.put("fr", "auto");
         translation.put("de", "wagen");
-        ValueDictionary item = new ValueDictionary();
+        ValueDictionaryModel item = new ValueDictionaryModel();
         item.setPopularityIndex(0);
         item.setMap(translation);
         dictionary.put("машина", item);
@@ -41,7 +40,7 @@ public class ConsoleDictionaryController {
         translation.put("en", "house");
         translation.put("fr", "loger");
         translation.put("de", "haus");
-        item = new ValueDictionary();
+        item = new ValueDictionaryModel();
         item.setPopularityIndex(0);
         item.setMap(translation);
         dictionary.put("дом", item);
@@ -55,7 +54,7 @@ public class ConsoleDictionaryController {
         translation.put("en", "planet");
         translation.put("fr", "planète");
         translation.put("de", "planet");
-        item = new ValueDictionary();
+        item = new ValueDictionaryModel();
         item.setPopularityIndex(0);
         item.setMap(translation);
         dictionary.put("планета", item);
@@ -67,7 +66,7 @@ public class ConsoleDictionaryController {
             System.out.printf("слово %s уже существует\n", word);
             return false;
         } else { // если слово не существует
-            dictionary.put(word, new ValueDictionary());
+            dictionary.put(word, new ValueDictionaryModel());
             return true;
         }
     }
@@ -75,7 +74,7 @@ public class ConsoleDictionaryController {
     // изменяет слово в словаре
     public Boolean changeWord(String oldWord, String newWord) {
         if (dictionary.containsKey(oldWord)) { // если слово существует
-             ValueDictionary temporary =  dictionary.get(oldWord);
+             ValueDictionaryModel temporary =  dictionary.get(oldWord);
              dictionary.remove(oldWord);
              dictionary.put(newWord, temporary);
             return true;
@@ -100,7 +99,7 @@ public class ConsoleDictionaryController {
     // добавляет перевод слова, при условии, что оно есть в словаре и локаль не занята
     public Boolean addTranslate(String word, String locale, String translate) {
         if (dictionary.containsKey(word)) { // если слово существует
-            ValueDictionary item = dictionary.get(word);
+            ValueDictionaryModel item = dictionary.get(word);
             if (item.getMap().containsKey(locale)) { // если локаль существует
                 System.out.printf("перевод для %s уже существует.\n", locale);
                 return false;
@@ -117,7 +116,7 @@ public class ConsoleDictionaryController {
     // изменяет перевод слова при условии, что оно есть в словаре и локаль существует
     public Boolean changeTranslate(String word, String locale, String translate) {
         if (dictionary.containsKey(word)) { // если слово существует
-            ValueDictionary item = dictionary.get(word);
+            ValueDictionaryModel item = dictionary.get(word);
             if (item.getMap().containsKey(locale)) { // если локаль существует
                 item.getMap().replace(locale, translate);
                 item.setPopularityIndex(item.getPopularityIndex() + 1);
@@ -135,7 +134,7 @@ public class ConsoleDictionaryController {
     // удаляет перевод слова, при условии, что оно есть в словаре и локаль существует
     public Boolean deleteTranslate(String word, String locale) {
         if (dictionary.containsKey(word)) { // если слово существует
-            ValueDictionary item = dictionary.get(word);
+            ValueDictionaryModel item = dictionary.get(word);
             if (item.getMap().containsKey(locale)) { // если локаль существует
                 item.getMap().remove(locale);
                 item.setPopularityIndex(item.getPopularityIndex() + 1);
@@ -163,7 +162,7 @@ public class ConsoleDictionaryController {
         System.out.println("Введите перевод на немецкий:");
         String germanWord = scanner.nextLine();
 
-        ValueDictionary translation = new ValueDictionary();
+        ValueDictionaryModel translation = new ValueDictionaryModel();
 
         try {
             translation.getMap().put("en", englishWord);
@@ -179,23 +178,25 @@ public class ConsoleDictionaryController {
 
     // выводит топ1
     public void printTopOne() {
-        ValueDictionary word = dictionary.values().stream().max((o1, o2) -> o1.getPopularityIndex().compareTo(o2.getPopularityIndex())).get();
-        if (dictionary.containsValue(word)) {
-            System.out.print("\ntop1: ");
-            System.out.println(dictionary.); // TODO: допилить
-            // dictionary.get(word)
+        Map.Entry<String, ValueDictionaryModel> word = dictionary.entrySet().stream().max((o1, o2) -> o1.getValue().getPopularityIndex().compareTo(o2.getValue().getPopularityIndex())).get();
+        if (dictionary.keySet().contains(word.getKey())) {
+            System.out.print("top1 ");
+            System.out.printf("слово: [%s] = англ. - %s | франц. - %s | нем. - %s\n", word.getKey(), (word.getValue().getMap().containsKey("en") ? word.getValue().getMap().get("en") : "нет перевода"), (word.getValue().getMap().containsKey("fr") ? word.getValue().getMap().get("fr") : "нет перевода"), (word.getValue().getMap().containsKey("de") ? word.getValue().getMap().get("de") : "нет перевода"));
+        } else {
+            System.out.println("error");
         }
-
     }
 
 
-    // выводит пот1 с конца
+    // выводит топ1 с конца
     public void printTopLast() {
-        ValueDictionary word = dictionary.values().stream().min((o1, o2) -> o1.getPopularityIndex().compareTo(o2.getPopularityIndex())).get();
-        System.out.print("\ntop last: ");
-        System.out.println(word);
-        // dictionary.get(word)
-
+        Map.Entry<String, ValueDictionaryModel> word = dictionary.entrySet().stream().min((o1, o2) -> o1.getValue().getPopularityIndex().compareTo(o2.getValue().getPopularityIndex())).get();
+        if (dictionary.keySet().contains(word.getKey())) {
+            System.out.print("top last ");
+            System.out.printf("слово: [%s] = англ. - %s | франц. - %s | нем. - %s\n", word.getKey(), (word.getValue().getMap().containsKey("en") ? word.getValue().getMap().get("en") : "нет перевода"), (word.getValue().getMap().containsKey("fr") ? word.getValue().getMap().get("fr") : "нет перевода"), (word.getValue().getMap().containsKey("de") ? word.getValue().getMap().get("de") : "нет перевода"));
+        } else {
+            System.out.println("error");
+        }
     }
 
 
@@ -203,7 +204,7 @@ public class ConsoleDictionaryController {
     // распечатать одно слово
     public void print(String word) {
         if (dictionary.containsKey(word)) {
-            System.out.printf("слово: [%s] = англ. - %s | франц. - %s | нем. - %s", word, dictionary.get(word).getMap().get("en"), dictionary.get(word).getMap().get("fr"), dictionary.get(word).getMap().get("de"));
+            System.out.printf("слово: [%s] = англ. - %s | франц. - %s | нем. - %s\n", word, dictionary.get(word).getMap().get("en"), dictionary.get(word).getMap().get("fr"), dictionary.get(word).getMap().get("de"));
             dictionary.get(word).setPopularityIndex(dictionary.get(word).getPopularityIndex() + 1);
         } else {
             System.out.printf("слово %s не найдено", word);
@@ -211,7 +212,7 @@ public class ConsoleDictionaryController {
     }
     // распечатать весь словарь
     public void printAll() {
-        for (Map.Entry<String, ValueDictionary> item : dictionary.entrySet()) {
+        for (Map.Entry<String, ValueDictionaryModel> item : dictionary.entrySet()) {
             System.out.println("\nслово: " + item.getKey() + "\nперевод:");
             item.getValue().setPopularityIndex(item.getValue().getPopularityIndex() + 1);
             if (!item.getValue().getMap().entrySet().isEmpty()) {

@@ -16,12 +16,14 @@ public class Main {
         System.out.println(controller.deleteWord("планета2"));
 
         controller.printAll();
+        System.out.println("----------------------");
         controller.print("машина");
         controller.print("дом");
         controller.print("дом");
         controller.print("стол");
-        controller.print("стол");
-
+//        controller.print("стол");
+//        controller.print("стол");
+        System.out.println("----------------------");
         controller.printTopOne();
         controller.printTopLast();
 
